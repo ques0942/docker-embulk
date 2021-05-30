@@ -1,5 +1,5 @@
-ARG TAG=8-alpine
-FROM openjdk:${TAG}
+ARG BASE_IMAGE_TAG=8-alpine
+FROM openjdk:${BASE_IMAGE_TAG}
 
 ENV EMBULK_VERSION 0.9.7
 

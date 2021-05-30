@@ -45,5 +45,5 @@ jobs:
           context: .
           pull: true
           push: true
-          build-args: ${{ matrix.base_image_tag }}
+          build-args: BASE_IMAGE_TAG=${{ matrix.base_image_tag }}
           tags: ${{ steps.prep.outputs.tags }}
