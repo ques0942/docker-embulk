@@ -1,4 +1,4 @@
-name: build-and-push
+name: build-and-push-buster
 on:
   pull_request:
   push:
@@ -6,10 +6,7 @@ on:
       - master
 jobs:
   build_and_push:
-    name: build and push docker image
-    strategy:
-      matrix:
-        base_image_tag: [8-alpine, 8]
+    name: build and push docker image(buster)
     runs-on: ubuntu-latest
     steps:
       - name: checkout
@@ -26,9 +23,9 @@ jobs:
           elif [[ $GITHUB_REF == refs/pull/* ]]; then
             VERSION=pr-${{ github.event.number }}
           fi
-          TAGS="${DOCKER_IMAGE}:${{ matrix.base_image_tag }}-${VERSION}"
+          TAGS="${DOCKER_IMAGE}:8-buster-${VERSION}"
           if [ "${{ github.event_name }}" = "push" ]; then
-            TAGS="$TAGS,${DOCKER_IMAGE}:${{ matrix.base_image_tag }}-sha-${GITHUB_SHA::8}"
+            TAGS="$TAGS,${DOCKER_IMAGE}:8-buster-sha-${GITHUB_SHA::8}"
           fi
           echo ::set-output name=tags::${TAGS}
       - name: setup buildx
@@ -45,5 +42,5 @@ jobs:
           context: .
           pull: true
           push: true
-          build-args: ${{ matrix.base_image_tag }}
+          file: Dockerfile.buster
           tags: ${{ steps.prep.outputs.tags }}
