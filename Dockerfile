@@ -1,4 +1,5 @@
-FROM openjdk:8-alpine
+ARG TAG=8-alpine
+FROM openjdk:${TAG}
 
 ENV EMBULK_VERSION 0.9.7
 
