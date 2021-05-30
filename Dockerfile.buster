@@ -1,0 +1,20 @@
+FROM openjdk:8-buster
+
+ENV EMBULK_VERSION 0.9.7
+
+# Install libc6-compat for Embulk Plugins to use JNI
+# cf : https://github.com/jruby/jruby/wiki/JRuby-on-Alpine-Linux
+RUN apt-get update -y && apt-get install -y curl \
+    && mkdir /embulk \
+    && curl -o  /embulk/embulk -L "https://dl.embulk.org/embulk-$EMBULK_VERSION.jar" \
+    && chmod +x /embulk/embulk \
+    && useradd embulk -U -m \
+    && chown -R embulk:embulk /embulk
+
+USER embulk
+
+COPY docker-entrypoint.sh /embulk/entrypoint.sh
+
+WORKDIR /embulk
+
+ENTRYPOINT ["/embulk/entrypoint.sh"]
