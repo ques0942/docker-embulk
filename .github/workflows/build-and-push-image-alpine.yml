@@ -38,9 +38,13 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: build and push
         uses: docker/build-push-action@v2.5.0
+        id: build-and-push
         with:
           context: .
           pull: true
           push: true
           file: Dockerfile.alpine
           tags: ${{ steps.prep.outputs.tags }}
+      - name: test
+        run: |
+          docker run --pull always "ghcr.io/${GITHUB_REPOSITORY}:${{ steps.prep.outputs.tags }}"
