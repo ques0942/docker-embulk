@@ -1,4 +1,4 @@
-FROM openjdk:8-buster
+FROM openjdk:16-buster
 
 ENV EMBULK_VERSION 0.9.7
 
